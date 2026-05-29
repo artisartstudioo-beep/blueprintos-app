@@ -1,0 +1,52 @@
+.canvas-card {
+  border: 1px solid rgba(61, 158, 255, 0.2);
+  background: rgba(15, 45, 94, 0.2);
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.canvas-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  color: var(--paper);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.canvas-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.canvas-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: rgba(10, 10, 15, 0.5);
+  border-left: 2px solid var(--accent2);
+}
+
+.item-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(244, 241, 235, 0.7);
+}
+
+.item-value {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.canvas-empty {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(244, 241, 235, 0.3);
+  text-align: center;
+  padding: 20px;
+}
