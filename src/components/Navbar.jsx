@@ -1,10 +1,17 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './Navbar.css'
 
 function Navbar() {
   const location = useLocation()
+  const navigate = useNavigate()
+  const token = window.localStorage.getItem('blueprintos_token')
 
   const isActive = (path) => location.pathname === path ? 'active' : ''
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('blueprintos_token')
+    navigate('/login')
+  }
 
   return (
     <nav className="navbar">
@@ -16,9 +23,6 @@ function Navbar() {
         </Link>
 
         <div className="nav-menu">
-          <Link to="/" className={`nav-item ${isActive('/')}`}>
-            Landing
-          </Link>
           <Link to="/dashboard" className={`nav-item ${isActive('/dashboard')}`}>
             Dashboard
           </Link>
@@ -51,9 +55,22 @@ function Navbar() {
           </Link>
         </div>
 
-        <a className="nav-cta" href="#contact">
-          Start trial
-        </a>
+        <div className="nav-actions">
+          {token ? (
+            <button type="button" className="nav-cta" onClick={handleLogout}>
+              Logout
+            </button>
+          ) : (
+            <>
+              <Link to="/login" className="nav-item login-link">
+                Login
+              </Link>
+              <Link to="/register" className="nav-cta">
+                Register
+              </Link>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   )

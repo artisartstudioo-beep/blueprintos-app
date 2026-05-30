@@ -1,6 +1,6 @@
 import './MetricCard.css'
 
-function MetricCard({ label, value, unit = '', trend = null }) {
+function MetricCard({ label, value, date, notes, unit = '' }) {
   return (
     <div className="metric-card">
       <div className="metric-label">{label}</div>
@@ -8,11 +8,8 @@ function MetricCard({ label, value, unit = '', trend = null }) {
         {value}
         {unit && <span className="metric-unit">{unit}</span>}
       </div>
-      {trend && (
-        <div className={`metric-trend ${trend > 0 ? 'positive' : 'negative'}`}>
-          {trend > 0 ? '↑' : '↓'} {Math.abs(trend)}%
-        </div>
-      )}
+      {date && <div className="metric-detail">Date: {date}</div>}
+      {notes && <div className="metric-detail">Notes: {notes}</div>}
     </div>
   )
 }

@@ -1,66 +1,45 @@
 function AIGenerator() {
-  const handleGenerate = (e) => {
-    e.preventDefault()
-    alert('AI generation triggered (placeholder)')
-  }
-
   return (
     <main className="page-content">
       <section className="page-hero">
         <h1 className="reveal">AI Generator</h1>
-        <p className="reveal">Use AI to generate blueprints, copy, and strategies.</p>
+        <p className="reveal">AI generation is not connected yet. Add an API key later.</p>
       </section>
 
       <section className="section reveal">
         <div className="ai-container">
           <div className="ai-card">
             <h2>Generate Blueprint</h2>
-            <p>Create a new product blueprint using AI assistance.</p>
-            <form onSubmit={handleGenerate}>
-              <textarea
-                placeholder="Describe your product idea..."
-                rows="4"
-              />
-              <button type="submit" className="btn-primary">
-                Generate
-              </button>
-            </form>
+            <p>This tool will draft blueprints from your saved data once AI is connected.</p>
+            <textarea disabled value="AI Generator is not connected yet. Add an API key later." rows="4" />
+            <button type="button" className="btn-primary" disabled>
+              Generate
+            </button>
           </div>
 
           <div className="ai-card">
             <h2>Generate Content</h2>
-            <p>Write marketing copy, documentation, and more.</p>
-            <form onSubmit={handleGenerate}>
-              <input
-                type="text"
-                placeholder="What do you want to generate?"
-              />
-              <button type="submit" className="btn-primary">
-                Generate
-              </button>
-            </form>
+            <p>Copy and strategy drafts will appear once a real AI API is configured.</p>
+            <input disabled value="API key required" />
+            <button type="button" className="btn-primary" disabled>
+              Generate
+            </button>
           </div>
 
           <div className="ai-card">
             <h2>Generate Strategy</h2>
-            <p>Build a go-to-market strategy using AI.</p>
-            <form onSubmit={handleGenerate}>
-              <select>
-                <option>Select product type...</option>
-                <option>SaaS</option>
-                <option>Mobile App</option>
-                <option>Consumer App</option>
-                <option>B2B Enterprise</option>
-              </select>
-              <button type="submit" className="btn-primary">
-                Generate
-              </button>
-            </form>
+            <p>Strategy generation will use your saved funnel, metrics, and blueprint.</p>
+            <select disabled>
+              <option>Not connected yet</option>
+            </select>
+            <button type="button" className="btn-primary" disabled>
+              Generate
+            </button>
           </div>
         </div>
 
         <div className="ai-status">
-          <p>🚀 AI features are in development. Check back soon!</p>
+          <p>AI Generator is not connected yet. Add an API key later.</p>
         </div>
       </section>
     </main>

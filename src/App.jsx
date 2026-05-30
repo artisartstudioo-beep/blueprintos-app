@@ -11,6 +11,8 @@ import FunnelBuilder from './pages/FunnelBuilder'
 import Guardrails from './pages/Guardrails'
 import AIGenerator from './pages/AIGenerator'
 import Pricing from './pages/Pricing'
+import Login from './pages/Login'
+import Register from './pages/Register'
 import './App.css'
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create" element={<CreateBlueprint />} />
           <Route path="/canvas" element={<Canvas />} />
