@@ -46,8 +46,7 @@ function Landing() {
             <div className="c-block span2">
               <div className="c-label">Business Overview</div>
               <div style={{ fontSize: '11px', color: 'rgba(244,241,235,0.5)', fontFamily: 'DM Mono, monospace', lineHeight: 1.6 }}>
-                Consulting Agency · B2B · $420k ARR<br />
-                <span style={{ color: 'var(--accent2)' }}>Goal: $1M</span>
+                Consulting Agency · B2B
               </div>
               <div className="c-dots" style={{ marginTop: '10px' }}>
                 <span className="c-dot on" />
@@ -59,8 +58,8 @@ function Landing() {
             </div>
             <div className="c-block accent">
               <div className="c-label">Revenue</div>
-              <div className="c-metric">$38.2k</div>
-              <div className="c-sub">MRR this month</div>
+              <div className="c-metric">—</div>
+              <div className="c-sub">Monthly revenue</div>
               <div className="c-bar gold" style={{ marginTop: '8px' }}>
                 <div className="c-bar-fill" style={{ width: '76%' }} />
               </div>
@@ -132,19 +131,19 @@ function Landing() {
 
       <section className="stats-strip reveal">
         <div className="stat-item">
-          <div className="stat-num">9</div>
+          <div className="stat-num">—</div>
           <div className="stat-label">Business Departments</div>
         </div>
         <div className="stat-item">
-          <div className="stat-num">10</div>
+          <div className="stat-num">—</div>
           <div className="stat-label">Core Metrics Tracked</div>
         </div>
         <div className="stat-item">
-          <div className="stat-num">5min</div>
+          <div className="stat-num">—</div>
           <div className="stat-label">To First Blueprint</div>
         </div>
         <div className="stat-item">
-          <div className="stat-num">1</div>
+          <div className="stat-num">—</div>
           <div className="stat-label">Page. Zero Chaos.</div>
         </div>
       </section>
@@ -238,7 +237,7 @@ function Landing() {
               <div className="bc-bar-mini"><div className="bc-bar-fill" style={{ width: '82%' }} /></div>
             </div>
             <div className="bc-cell yellow" data-label="Revenue MRR">
-              <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '16px' }}>$38k</span>
+              <span style={{ fontFamily: 'Syne, sans-serif', fontWeight: 800, fontSize: '16px' }}>—</span>
             </div>
             <div className="bc-cell" data-label="Marketing">
               <div className="bc-tag-row">

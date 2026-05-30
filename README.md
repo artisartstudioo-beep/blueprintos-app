@@ -12,7 +12,7 @@ npm run dev
 
 If the backend fails to start with an `EADDRINUSE` error on port `5000`, a previous Node process may still be holding that port. Stop the stale process, then rerun `npm run dev`.
 
-Currently, the frontend defaults to `http://localhost:5173` and the backend listens on `http://localhost:5000`.
+Currently, the frontend defaults to `http://localhost:5174` and the backend listens on `http://localhost:5000`.
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)

@@ -25,3 +25,8 @@ dist-ssr
 
 # Local environment variables
 .env
+
+# SQLite DB files
+*.db
+server/data/*.db
+blueprintos.db
