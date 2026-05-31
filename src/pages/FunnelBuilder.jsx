@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { funnels as funnelsApi } from '../lib/api.js'
 
 function FunnelBuilder() {
@@ -7,14 +8,19 @@ function FunnelBuilder() {
   const [conversion, setConversion] = useState('')
   const [description, setDescription] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const loadStages = async () => {
+      setLoading(true)
+      setError('')
       try {
         const response = await funnelsApi.list()
         setStages(response.data)
       } catch (err) {
         setError('Unable to load funnel stages.')
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -63,8 +69,20 @@ function FunnelBuilder() {
 
       <section className="section reveal">
         <h2 className="section-title">Funnel Stages</h2>
-        {error && <div className="form-error">{error}</div>}
-        {stages.length > 0 ? (
+        {error && (
+          <div className="form-error">
+            {error}
+            {(error.toLowerCase().includes('unauthorized') || error.toLowerCase().includes('login')) && (
+              <div style={{marginTop:8}}>
+                <Link to="/login" className="btn" style={{marginRight:8}}>Login</Link>
+                <Link to="/register" className="btn-ghost">Register</Link>
+              </div>
+            )}
+          </div>
+        )}
+        {loading ? (
+          <div className="empty-state">Loading…</div>
+        ) : stages.length > 0 ? (
           <div className="funnel-list">
             {stages.map((stage) => (
               <div key={stage.id} className="funnel-stage">
@@ -90,7 +108,7 @@ function FunnelBuilder() {
             ))}
           </div>
         ) : (
-          <div className="empty-state">No funnel stages saved yet. Add your first stage below.</div>
+          <div className="empty-state">No funnel stages yet. Add your first funnel stage.</div>
         )}
       </section>
 

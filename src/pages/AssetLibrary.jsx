@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import CanvasCard from '../components/CanvasCard'
 import { assets as assetsApi } from '../lib/api.js'
 
@@ -10,14 +11,19 @@ function AssetLibrary() {
   const [link, setLink] = useState('')
   const [notes, setNotes] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const loadAssets = async () => {
+      setLoading(true)
+      setError('')
       try {
         const response = await assetsApi.list()
         setAssets(response.data)
       } catch (err) {
         setError('Unable to load assets.')
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -72,8 +78,20 @@ function AssetLibrary() {
 
       <section className="section reveal">
         <h2 className="section-title">Saved Assets</h2>
-        {error && <div className="form-error">{error}</div>}
-        {assets.length > 0 ? (
+        {error && (
+          <div className="form-error">
+            {error}
+            {(error.toLowerCase().includes('unauthorized') || error.toLowerCase().includes('login')) && (
+              <div style={{marginTop:8}}>
+                <Link to="/login" className="btn" style={{marginRight:8}}>Login</Link>
+                <Link to="/register" className="btn-ghost">Register</Link>
+              </div>
+            )}
+          </div>
+        )}
+        {loading ? (
+          <div className="empty-state">Loading…</div>
+        ) : assets.length > 0 ? (
           <div className="canvas-grid">
             {Object.keys(groupedAssets).map((categoryKey) => (
               <CanvasCard
@@ -87,7 +105,7 @@ function AssetLibrary() {
             ))}
           </div>
         ) : (
-          <div className="empty-state">No assets added yet. Add your first asset below.</div>
+          <div className="empty-state">No assets added yet. Add your first asset.</div>
         )}
 
         {assets.length > 0 && (

@@ -74,15 +74,24 @@ const startServer = async () => {
     res.status(err.status || 500).json({ message: err.message || 'Internal server error' })
   })
 
-  const server = app.listen(PORT, () => {
-    console.log(`Server listening on http://localhost:${PORT}`)
-    console.log(`Allowed CORS origins: ${allowedOrigins.join(', ')}`)
-  })
+  const startListening = (port) => {
+    const server = app.listen(port, () => {
+      console.log(`Server listening on http://localhost:${port}`)
+      console.log(`Allowed CORS origins: ${allowedOrigins.join(', ')}`)
+    })
 
-  server.on('error', (err) => {
-    console.error('Server failed to start:', err)
-    process.exit(1)
-  })
+    server.on('error', (err) => {
+      if (err && err.code === 'EADDRINUSE') {
+        console.warn(`Port ${port} in use, trying ${port + 1}...`)
+        setTimeout(() => startListening(port + 1), 300)
+        return
+      }
+      console.error('Server failed to start:', err)
+      process.exit(1)
+    })
+  }
+
+  startListening(Number(PORT))
 
   // Global error handlers to surface unexpected failures
   process.on('unhandledRejection', (reason) => {

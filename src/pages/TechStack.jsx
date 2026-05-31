@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import ToolCard from '../components/ToolCard'
 import { techStack as techApi } from '../lib/api.js'
 
@@ -10,14 +11,19 @@ function TechStack() {
   const [purpose, setPurpose] = useState('')
   const [status, setStatus] = useState('active')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const loadTech = async () => {
+      setLoading(true)
+      setError('')
       try {
         const response = await techApi.list()
         setTechItems(response.data)
       } catch (err) {
         setError('Unable to load your tech stack.')
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -65,8 +71,20 @@ function TechStack() {
 
       <section className="section reveal">
         <h2 className="section-title">Saved Tools</h2>
-        {error && <div className="form-error">{error}</div>}
-        {techItems.length > 0 ? (
+        {error && (
+          <div className="form-error">
+            {error}
+            {(error.toLowerCase().includes('unauthorized') || error.toLowerCase().includes('login')) && (
+              <div style={{marginTop:8}}>
+                <Link to="/login" className="btn" style={{marginRight:8}}>Login</Link>
+                <Link to="/register" className="btn-ghost">Register</Link>
+              </div>
+            )}
+          </div>
+        )}
+          {loading ? (
+            <div className="empty-state">Loading…</div>
+          ) : techItems.length > 0 ? (
           <div className="tools-grid">
             {techItems.map((item) => (
               <div key={item.id} className="tool-card tool-card-with-delete">
@@ -84,7 +102,7 @@ function TechStack() {
             ))}
           </div>
         ) : (
-          <div className="empty-state">No tools added yet. Add your first tech stack item below.</div>
+          <div className="empty-state">No tools added yet. Add your first tool.</div>
         )}
       </section>
 

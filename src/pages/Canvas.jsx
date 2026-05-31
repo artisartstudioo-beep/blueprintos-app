@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import CanvasCard from '../components/CanvasCard'
 import { blueprints, assets as assetsApi, techStack, metrics, funnels, guardrails } from '../lib/api.js'
 
@@ -9,9 +10,13 @@ function Canvas() {
   const [metricsData, setMetricsData] = useState([])
   const [funnel, setFunnel] = useState([])
   const [guardrailsData, setGuardrailsData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const loadCanvasData = async () => {
+      setLoading(true)
+      setError(null)
       try {
         const [blueprintResponse, assetResponse, techResponse, metricsResponse, funnelResponse, guardrailsResponse] = await Promise.all([
           blueprints.list(),
@@ -29,12 +34,15 @@ function Canvas() {
         setFunnel(funnelResponse.data)
         setGuardrailsData(guardrailsResponse.data)
       } catch (err) {
+        setError(err.message || 'Failed to load canvas data')
         setBlueprints([])
         setAssets([])
         setTech([])
         setMetricsData([])
         setFunnel([])
         setGuardrailsData([])
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -119,6 +127,64 @@ function Canvas() {
           : [{ label: 'No guardrails defined yet', value: 'Use the Guardrails page to add rules.' }],
     },
   ]
+
+  if (loading) {
+    return (
+      <main className="page-content">
+        <section className="page-hero">
+          <h1 className="reveal">Business Canvas</h1>
+          <p className="reveal">See your saved blueprint data in one canvas view.</p>
+        </section>
+        <section className="section reveal">
+          <div className="empty-state">Loading…</div>
+        </section>
+      </main>
+    )
+  }
+
+  if (error) {
+    return (
+      <main className="page-content">
+        <section className="page-hero">
+          <h1 className="reveal">Business Canvas</h1>
+          <p className="reveal">See your saved blueprint data in one canvas view.</p>
+        </section>
+        <section className="section reveal">
+          <div className="empty-state error">Error: {error}
+            <div style={{marginTop:12}}>
+              {error.toLowerCase().includes('unauthorized') || error.toLowerCase().includes('login') ? (
+                <>
+                  <Link to="/login" className="btn" style={{marginRight:8}}>Login</Link>
+                  <Link to="/register" className="btn-ghost">Register</Link>
+                </>
+              ) : null}
+            </div>
+          </div>
+        </section>
+      </main>
+    )
+  }
+
+  // If there is no blueprint, show an explicit empty canvas state
+  if (!blueprint) {
+    return (
+      <main className="page-content">
+        <section className="page-hero">
+          <h1 className="reveal">Business Canvas</h1>
+          <p className="reveal">See your saved blueprint data in one canvas view.</p>
+        </section>
+        <section className="section reveal">
+          <div className="empty-state">
+            <h3>No canvas yet.</h3>
+            <p>Create a blueprint first.</p>
+            <div className="empty-actions">
+              <Link to="/create" className="btn">Create Blueprint</Link>
+            </div>
+          </div>
+        </section>
+      </main>
+    )
+  }
 
   return (
     <main className="page-content">

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import CanvasCard from '../components/CanvasCard'
 import { guardrails as guardrailsApi } from '../lib/api.js'
 
@@ -8,14 +9,19 @@ function Guardrails() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const loadGuardrails = async () => {
+      setLoading(true)
+      setError('')
       try {
         const response = await guardrailsApi.list()
         setGuardrails(response.data)
       } catch (err) {
         setError('Unable to load guardrails.')
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -66,8 +72,20 @@ function Guardrails() {
 
       <section className="section reveal">
         <h2 className="section-title">Saved Guardrails</h2>
-        {error && <div className="form-error">{error}</div>}
-        {guardrails.length > 0 ? (
+        {error && (
+          <div className="form-error">
+            {error}
+            {(error.toLowerCase().includes('unauthorized') || error.toLowerCase().includes('login')) && (
+              <div style={{marginTop:8}}>
+                <Link to="/login" className="btn" style={{marginRight:8}}>Login</Link>
+                <Link to="/register" className="btn-ghost">Register</Link>
+              </div>
+            )}
+          </div>
+        )}
+        {loading ? (
+          <div className="empty-state">Loading…</div>
+        ) : guardrails.length > 0 ? (
           <div className="canvas-grid">
             {Object.keys(groupedGuardrails).map((categoryKey) => (
               <CanvasCard
@@ -78,7 +96,7 @@ function Guardrails() {
             ))}
           </div>
         ) : (
-          <div className="empty-state">No guardrails stored yet. Add one below.</div>
+          <div className="empty-state">No rules yet. Add your first guardrail.</div>
         )}
 
         {guardrails.length > 0 && (
