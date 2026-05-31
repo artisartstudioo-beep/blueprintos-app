@@ -8,6 +8,7 @@
     "client": "vite --port 5174",
     "server": "nodemon server/server.js",
     "build": "vite build",
+    "start": "node server/server.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },

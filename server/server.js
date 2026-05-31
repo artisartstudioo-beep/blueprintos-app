@@ -16,9 +16,12 @@ import exportsRoutes from './routes/exports.js'
 dotenv.config()
 
 const app = express()
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const PORT = process.env.PORT || 5000
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5174'
 const allowedOrigins = CLIENT_URL.split(',').map((origin) => origin.trim())
+const distPath = path.join(__dirname, '../dist')
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -54,6 +57,17 @@ const startServer = async () => {
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok' })
   })
+
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(distPath))
+
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api/')) {
+        return next()
+      }
+      res.sendFile(path.join(distPath, 'index.html'))
+    })
+  }
 
   app.use((err, req, res, next) => {
     console.error('Express error handler:', err)
